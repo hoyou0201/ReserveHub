@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: reservehub-postgres
+    environment:
+      POSTGRES_DB: reservehub
+      POSTGRES_USER: reservehub
+      POSTGRES_PASSWORD: reservehub
+    ports:
+      - "5432:5432"
+    volumes:
+      - reservehub-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  reservehub-postgres-data:
