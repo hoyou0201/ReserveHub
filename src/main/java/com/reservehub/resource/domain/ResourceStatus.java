@@ -1,4 +1,4 @@
-package com.example.reservehub.resource.domain;
+package com.reservehub.resource.domain;
 
 public enum ResourceStatus {
     AVAILABLE,
