@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/resources
+Content-Type: application/json
+
+{
+  "name": "1번 스터디룸",
+  "description": "최대 6명 이용 가능"
+}
