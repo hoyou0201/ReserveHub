@@ -68,8 +68,7 @@ class ResourceControllerTest {
 
     @Test
     void 공유자원목록을_조회한다() throws Exception{
-        ResourceResponse resource = new ResourceResponse(
-                1l,
+        Resource resource = new Resource(
                 "1번 스터디룸",
                 "최대 6명 이용 가능",
                 ResourceStatus.AVAILABLE
@@ -80,7 +79,6 @@ class ResourceControllerTest {
 
         mockMvc.perform(get("/api/resources"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1l))
                 .andExpect(jsonPath("$[0].name").value("1번 스터디룸"))
                 .andExpect(jsonPath("$[0].description").value("최대 6명 이용 가능"))
                 .andExpect(jsonPath("$[0].status").value("AVAILABLE"));

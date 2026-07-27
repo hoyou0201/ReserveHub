@@ -3,7 +3,6 @@ package com.reservehub.resource.application;
 import com.reservehub.resource.domain.Resource;
 import com.reservehub.resource.domain.ResourceRepository;
 import com.reservehub.resource.domain.ResourceStatus;
-import com.reservehub.resource.presentation.ResourceResponse;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,13 +58,13 @@ class ResourceServiceTest {
                 .thenReturn(List.of(resource));
                 
         //when
-        List<ResourceResponse> resources = resourceService.findAllResources();
+        List<Resource> resources = resourceService.findAllResources();
 
         //then
         assertThat(resources).hasSize(1);
-        assertThat(resources.get(0).name()).isEqualTo("1번 스터디룸");
-        assertThat(resources.get(0).description()).isEqualTo("최대 6명 입장 가능");
-        assertThat(resources.get(0).status()).isEqualTo(ResourceStatus.AVAILABLE);
+        assertThat(resources.get(0).getName()).isEqualTo("1번 스터디룸");
+        assertThat(resources.get(0).getDescription()).isEqualTo("최대 6명 입장 가능");
+        assertThat(resources.get(0).getStatus()).isEqualTo(ResourceStatus.AVAILABLE);
 
         verify(resourceRepository).findAll();
 

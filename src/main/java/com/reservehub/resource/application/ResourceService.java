@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.reservehub.resource.domain.Resource;
 import com.reservehub.resource.domain.ResourceRepository;
 import com.reservehub.resource.domain.ResourceStatus;
-import com.reservehub.resource.presentation.ResourceResponse;
 
 @Service
 @Transactional
@@ -25,16 +24,12 @@ public class ResourceService {
         return resourceRepository.save(resource);
     }
 
-    public List<ResourceResponse> findAllResources(){
-        List<Resource> resources = resourceRepository.findAll();
-        return resources.stream()
-                    .map(ResourceResponse::from)
-                    .toList();
+    public List<Resource> findAllResources(){
+        return resourceRepository.findAll();
     }
 
-    public ResourceResponse findById(Long id){
-        Resource resource = resourceRepository.findById(id)
-                    .orElseThrow();;
-        return ResourceResponse.from(resource);
+    public Resource findById(Long id){
+        return resourceRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 자원입니다."));
     }
 }

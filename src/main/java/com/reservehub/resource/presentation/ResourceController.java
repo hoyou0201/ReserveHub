@@ -33,7 +33,10 @@ public class ResourceController {
 
     @GetMapping
     public ResponseEntity<List<ResourceResponse>> findAllResources() {
-        return ResponseEntity.ok(resourceService.findAllResources());
+        List<Resource> resources = resourceService.findAllResources();
+        return ResponseEntity.ok(resources.stream()
+                                    .map(ResourceResponse::from)
+                                    .toList());
     }
     
 }
