@@ -13,9 +13,12 @@ import tools.jackson.databind.json.JsonMapper;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
 
 @WebMvcTest(ResourceController.class)
 class ResourceControllerTest {
@@ -61,5 +64,27 @@ class ResourceControllerTest {
             "1번 스터디룸",
             "최대 6명 이용 가능"
         );      
+    }
+
+    @Test
+    void 공유자원목록을_조회한다() throws Exception{
+        ResourceResponse resource = new ResourceResponse(
+                1l,
+                "1번 스터디룸",
+                "최대 6명 이용 가능",
+                ResourceStatus.AVAILABLE
+        );
+
+        when(resourceService.findAllResources())
+                .thenReturn(List.of(resource));
+
+        mockMvc.perform(get("/api/resources"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1l))
+                .andExpect(jsonPath("$[0].name").value("1번 스터디룸"))
+                .andExpect(jsonPath("$[0].description").value("최대 6명 이용 가능"))
+                .andExpect(jsonPath("$[0].status").value("AVAILABLE"));
+
+        verify(resourceService).findAllResources();
     }
 }
