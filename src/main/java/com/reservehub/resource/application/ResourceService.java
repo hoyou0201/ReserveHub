@@ -30,6 +30,6 @@ public class ResourceService {
 
     public Resource findById(Long id){
         return resourceRepository.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 자원입니다."));
+                    .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 자원입니다."));
     }
 }
