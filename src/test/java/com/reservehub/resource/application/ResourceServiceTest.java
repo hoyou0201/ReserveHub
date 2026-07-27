@@ -11,11 +11,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class ResourceServiceTest {
@@ -68,6 +70,42 @@ class ResourceServiceTest {
 
         verify(resourceRepository).findAll();
 
+    }
 
+    @Test
+    void 단일공유자원을_조회한다(){
+        //given
+        Resource resource = new Resource(
+            "1번 스터디룸", 
+            "최대 6명 입장 가능", 
+            ResourceStatus.AVAILABLE
+        );
+
+        when(resourceRepository.findById(1l))
+                .thenReturn(Optional.of(resource));
+                
+        //when
+        Resource foundResource = resourceService.findById(1l);
+
+        //then
+        assertThat(foundResource.getName()).isEqualTo("1번 스터디룸");
+        assertThat(foundResource.getDescription()).isEqualTo("최대 6명 입장 가능");
+        assertThat(foundResource.getStatus()).isEqualTo(ResourceStatus.AVAILABLE);
+
+        verify(resourceRepository).findById(1l);
+    }
+
+    @Test
+    void 목록에_없는_단일공유자원을_조회하면_예외가_발생한다(){
+        //given
+        when(resourceRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //then
+        assertThatThrownBy(() -> resourceService.findById(1L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("존재하지 않는 자원입니다.");
+
+        verify(resourceRepository).findById(1l);
     }
 }
