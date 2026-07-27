@@ -31,4 +31,10 @@ public class ResourceService {
                     .map(ResourceResponse::from)
                     .toList();
     }
+
+    public ResourceResponse findById(Long id){
+        Resource resource = resourceRepository.findById(id)
+                    .orElseThrow();;
+        return ResourceResponse.from(resource);
+    }
 }
