@@ -103,7 +103,7 @@ class ResourceServiceTest {
 
         //then
         assertThatThrownBy(() -> resourceService.findById(1L))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("존재하지 않는 자원입니다.");
 
         verify(resourceRepository).findById(1l);

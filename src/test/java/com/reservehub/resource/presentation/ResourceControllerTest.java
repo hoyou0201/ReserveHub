@@ -1,5 +1,6 @@
 package com.reservehub.resource.presentation;
 
+import com.reservehub.resource.application.ResourceNotFoundException;
 import com.reservehub.resource.application.ResourceService;
 import com.reservehub.resource.domain.Resource;
 import com.reservehub.resource.domain.ResourceStatus;
@@ -84,5 +85,39 @@ class ResourceControllerTest {
                 .andExpect(jsonPath("$[0].status").value("AVAILABLE"));
 
         verify(resourceService).findAllResources();
+    }
+
+    @Test
+    void 단일공유자원을_조회한다() throws Exception{
+        Resource resource = new Resource(
+                "1번 스터디룸",
+                "최대 6명 이용 가능",
+                ResourceStatus.AVAILABLE
+        );
+
+        when(resourceService.findById(1l))
+                .thenReturn(resource);
+
+        mockMvc.perform(get("/api/resources/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("1번 스터디룸"))
+                .andExpect(jsonPath("$.description").value("최대 6명 이용 가능"))
+                .andExpect(jsonPath("$.status").value("AVAILABLE"));
+
+        verify(resourceService).findById(1l);
+    }
+
+    @Test
+    void 존재하지_않는_공유자원을_조회하면_404를_반환한다() throws Exception{
+        when(resourceService.findById(999L))
+                .thenThrow(new ResourceNotFoundException("존재하지 않는 자원입니다."));
+
+        mockMvc.perform(get("/api/resources/999"))
+                .andExpect(status().isNotFound());
+
+        
+        verify(resourceService).findById(999l);
+
+        
     }
 }

@@ -9,3 +9,9 @@ Content-Type: application/json
 
 ### 공유자원 목록 조회
 GET http://localhost:8080/api/resources
+
+### 단일 공유 자원 조회
+GET http://localhost:8080/api/resources/1
+
+### 단일 공유 자원 없는거 조회시 404
+GET http://localhost:8080/api/resources/999
