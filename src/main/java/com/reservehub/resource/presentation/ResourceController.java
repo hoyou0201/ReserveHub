@@ -2,9 +2,13 @@ package com.reservehub.resource.presentation;
 
 import com.reservehub.resource.application.ResourceService;
 import com.reservehub.resource.domain.Resource;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api/resources")
@@ -26,4 +30,10 @@ public class ResourceController {
             .status(HttpStatus.CREATED)
             .body(response);
     }
+
+    @GetMapping
+    public ResponseEntity<List<ResourceResponse>> findAllResources() {
+        return ResponseEntity.ok(resourceService.findAllResources());
+    }
+    
 }
