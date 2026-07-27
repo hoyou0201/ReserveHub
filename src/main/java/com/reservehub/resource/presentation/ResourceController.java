@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+
 @RestController
 @RequestMapping("/api/resources")
 public class ResourceController {
@@ -38,5 +39,12 @@ public class ResourceController {
                                     .map(ResourceResponse::from)
                                     .toList());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResourceResponse> findResourceById(@PathVariable Long id) {
+        Resource resource = resourceService.findById(id);
+        return ResponseEntity.ok(ResourceResponse.from(resource));
+    }
+    
     
 }
